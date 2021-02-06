@@ -6,8 +6,11 @@ import React from "react";
 class App extends React.Component {
   state = {
     products: [],
+    category: "all",
   };
-
+  setCategory = (category) => {
+    this.setState({ category });
+  };
   async componentDidMount() {
     const response = await fetch("https://fakestoreapi.com/products");
     const products = await response.json();
@@ -17,8 +20,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header />
-        <Products products={this.state.products} />
+        <Header products={this.state.products} setCategory={this.setCategory}/>
+        <Products products={this.state.products} category={this.state.category}/>
       </div>
     );
   }

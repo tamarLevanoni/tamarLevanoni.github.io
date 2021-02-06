@@ -1,25 +1,14 @@
 import React from "react";
+import Filter from "../Filter/Filter.js";
+import PropTypes from "prop-types";
 
 class Header extends React.Component {
   render() {
     return (
       <nav className="product-filter">
-        <h1>Jackets</h1>
-
+        <h1>Products</h1>
         <div className="sort">
-          <div className="collection-sort">
-            <label>Filter by:</label>
-            <select>
-              <option value="/">All Jackets</option>
-              <option value="/">2016</option>
-              <option value="/">jacket</option>
-              <option value="/">Jackets</option>
-              <option value="/">layers</option>
-              <option value="/">Obermeyer</option>
-              <option value="/">Roxy</option>
-              <option value="/">womens</option>
-            </select>
-          </div>
+          <Filter products={this.props.products} setCategory={this.props.setCategory} />
 
           <div className="collection-sort">
             <label>Sort by:</label>
@@ -39,4 +28,9 @@ class Header extends React.Component {
     );
   }
 }
+
+Header.propTypes = {
+  products: PropTypes.array,
+  setCategory: PropTypes.func,
+};
 export default Header;

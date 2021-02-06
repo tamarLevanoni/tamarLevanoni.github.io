@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 class Product extends React.Component {
   render() {
     const { srcImg, title, price } = this.props;
@@ -12,7 +12,7 @@ class Product extends React.Component {
     return (
       <div className="product-card" style={style}>
         <div className="product-image">
-          <img src={srcImg} alt=""/>
+          <img src={srcImg} alt="" />
         </div>
         <div className="product-info">
           <h5>{title}</h5>
@@ -22,4 +22,11 @@ class Product extends React.Component {
     );
   }
 }
+Product.propTypes = {
+  isSale: PropTypes.bool,
+  srcImg: PropTypes.string,
+  title: PropTypes.string,
+  price: PropTypes.number,
+};
+
 export default Product;
