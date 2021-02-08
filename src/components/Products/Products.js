@@ -2,6 +2,7 @@ import React from "react";
 import Product from "../Product/Product.js";
 import SaleCountDown from "../SaleCountDown/SaleCountDown.js";
 import PropTypes from "prop-types";
+import "./Products.css"
 
 class Products extends React.Component {
   state = { isSale: false };
