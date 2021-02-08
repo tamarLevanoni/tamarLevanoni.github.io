@@ -1,6 +1,7 @@
 import React from "react";
 import Filter from "../Filter/Filter.js";
 import PropTypes from "prop-types";
+import "./Header.css"
 
 class Header extends React.Component {
   render() {
