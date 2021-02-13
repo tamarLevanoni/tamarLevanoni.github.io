@@ -9,7 +9,7 @@ class Header extends React.Component {
       <nav className="product-filter">
         <h1>Products</h1>
         <div className="sort">
-          <Filter products={this.props.products} setCategory={this.props.setCategory} />
+          <Filter categories={this.props.categories} setCategory={this.props.setCategory} />
 
           <div className="collection-sort">
             <label>Sort by:</label>

@@ -9,10 +9,10 @@ class Products extends React.Component {
   setSale = (isSale) => this.setState({ isSale });
   render() {
     let filterProduts;
-    if (this.props.category === "all") {
+    if (this.props.currentCategory === "all") {
       filterProduts = this.props.products;
     } else {
-      filterProduts = this.props.products.filter(({ category }) => category === this.props.category);
+      filterProduts = this.props.products.filter(({ category }) => category === this.props.currentCategory);
     }
     const cards = filterProduts.map(({ id, image, title, price }) => (
       <Product key={id} srcImg={image} title={title} price={price} isSale={this.state.isSale} />

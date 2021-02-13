@@ -6,10 +6,10 @@ import React from "react";
 class App extends React.Component {
   state = {
     products: [],
-    category: "all",
+    currentCategory: "all",
   };
-  setCategory = (category) => {
-    this.setState({ category });
+  setCategory = (currentCategory) => {
+    this.setState({ currentCategory });
   };
   async componentDidMount() {
     const response = await fetch("https://fakestoreapi.com/products");
@@ -18,11 +18,19 @@ class App extends React.Component {
   }
 
   render() {
+    const groupBy = (xs, key) =>
+    xs.reduce((rv, x) => {
+      rv[x[key]] = true || [];
+      return rv;
+    }, {});
+
+
+  const categories = Object.keys(groupBy(this.state.products, "category"));
     return (
-      <div>
-        <Header products={this.state.products} setCategory={this.setCategory}/>
-        <Products products={this.state.products} category={this.state.category}/>
-      </div>
+      <>
+        <Header categories={categories} setCategory={this.setCategory}/>
+        <Products products={this.state.products} currentCategory={this.state.currentCategory}/>
+      </>
     );
   }
 }
