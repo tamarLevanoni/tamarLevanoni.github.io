@@ -1,34 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Filter from "../Filter/Filter.js";
 import PropTypes from "prop-types";
-import "./Header.css"
+import "./Header.css";
 
-class Header extends React.Component {
-  render() {
-    return (
-      <nav className="product-filter">
-        <h1>Products</h1>
-        <div className="sort">
-          <Filter categories={this.props.categories} setCategory={this.props.setCategory} />
+const Header = (props) => (
+  <nav className="product-filter">
+    <h1>Products</h1>
+    <div className="sort">
+      <Filter categories={props.categories} setCategory={props.setCategory} />
 
-          <div className="collection-sort">
-            <label>Sort by:</label>
-            <select>
-              <option value="/">Featured</option>
-              <option value="/">Best Selling</option>
-              <option value="/">Alphabetically, A-Z</option>
-              <option value="/">Alphabetically, Z-A</option>
-              <option value="/">Price, low to high</option>
-              <option value="/">Price, high to low</option>
-              <option value="/">Date, new to old</option>
-              <option value="/">Date, old to new</option>
-            </select>
-          </div>
-        </div>
-      </nav>
-    );
-  }
-}
+      <div className="collection-sort">
+        <label>Sort by:</label>
+        <select>
+          <option value="/">Featured</option>
+          <option value="/">Best Selling</option>
+          <option value="/">Alphabetically, A-Z</option>
+          <option value="/">Alphabetically, Z-A</option>
+          <option value="/">Price, low to high</option>
+          <option value="/">Price, high to low</option>
+          <option value="/">Date, new to old</option>
+          <option value="/">Date, old to new</option>
+        </select>
+      </div>
+    </div>
+  </nav>
+);
 
 Header.propTypes = {
   products: PropTypes.array,

@@ -1,51 +1,47 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import "./SaleCountDown.css";
 
-class SaleCountDown extends React.Component {
-  state = {
-    minutes: 0,
-    seconds: 10,
-    isSale: true,
-  };
-  fixNum = function (num) {
+const SaleCountDown = (props) => {
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(10);
+  const [isSale, setIsSale] = useState(true);
+  let intervalRef = useRef();
+
+  const fixNum = function (num) {
     if (Number(num) < 10) {
       return "0" + num;
     }
     return num;
   };
-  timeOut = setTimeout(() => {
-    clearInterval(this.intervalId);
-    this.props.setSale(false);
-    this.setState({ isSale: false });
-  }, 10000);
-  intervalId = setInterval(() => {
-    let { minutes, seconds } = { ...this.state };
-    if (seconds === 0) {
-      seconds = 59;
-      minutes = minutes - 1;
-    } else {
-      seconds -= 1;
-    }
-    this.setState({ minutes, seconds });
-  }, 1000);
 
-  componentDidMount() {
-    this.props.setSale(true);
-  }
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      if (seconds === 0) {
+        setSeconds(59);
+        setMinutes((prev) => prev - 1);
+      } else {
+        setSeconds((prev) => prev - 1);
+      }
+    }, 1000);
+    return () => clearInterval(intervalRef.current);
+  }, [seconds]);
 
-  render() {
-    return (
-      <div className="saleCountDown">
-        {this.state.isSale
-          ? `${this.fixNum(this.state.minutes)}:${this.fixNum(this.state.seconds)} minutes to the end of sale`
-          : "End of sale"}
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    setTimeout(() => {
+      clearInterval(intervalRef.current);
+      props.setSale(false);
+      setIsSale(false);
+    }, 10000);
+    
+  }, [props]);
+  return (
+    <div className="saleCountDown">
+      {isSale ? `${fixNum(minutes)}:${fixNum(seconds)} minutes to the end of sale` : "End of sale"}
+    </div>
+  );
+};
 SaleCountDown.propTypes = {
   setSale: PropTypes.func,
-
 };
 export default SaleCountDown;

@@ -1,38 +1,37 @@
 import "./App.css";
 import Products from "./components/Products/Products.js";
 import Header from "./components/Header/Header.js";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-class App extends React.Component {
-  state = {
-    products: [],
-    currentCategory: "all",
-  };
-  setCategory = (currentCategory) => {
-    this.setState({ currentCategory });
-  };
-  async componentDidMount() {
-    const response = await fetch("https://fakestoreapi.com/products");
-    const products = await response.json();
-    this.setState({ products });
-  }
+const App = () => {
+ const [products, setProducts] = useState([]);
+ const  [currentCategory, setCurrentCategory] = useState("all");
 
-  render() {
-    const groupBy = (xs, key) =>
+  const setCategory = (currentCategory) => {
+    setCurrentCategory(currentCategory);
+  };
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch("https://fakestoreapi.com/products");
+      const products = await response.json();
+      setProducts(products);
+    }
+    fetchData();
+  }, []);
+
+  const groupBy = (xs, key) =>
     xs.reduce((rv, x) => {
       rv[x[key]] = true || [];
       return rv;
     }, {});
 
-
-  const categories = Object.keys(groupBy(this.state.products, "category"));
-    return (
-      <>
-        <Header categories={categories} setCategory={this.setCategory}/>
-        <Products products={this.state.products} currentCategory={this.state.currentCategory}/>
-      </>
-    );
-  }
-}
+  const categories = Object.keys(groupBy(products, "category"));
+  return (
+    <>
+      <Header categories={categories} setCategory={setCategory} />
+      <Products products={products} currentCategory={currentCategory} />
+    </>
+  );
+};
 
 export default App;
