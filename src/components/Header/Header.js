@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {  } from "react";
 import Filter from "../Filter/Filter.js";
 import PropTypes from "prop-types";
 import "./Header.css";
