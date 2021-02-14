@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
+import saleStamp from "./sale-stamp.png";
 import PropTypes from "prop-types";
 import "./Product.css";
 const Product = (props) => {
   const { srcImg, title, price, isSale } = props;
-  // let style = {};
-  // if (isSale && price < 100) {
-  //   style = { backgroundColor: "#b41329" };
-  // } else {
-  //   style = { backgroundColor: "#fff" };
-  // }
+
   return (
     <div className="product-card" >
-      {isSale&&price<100&&<img src="sale-stamp.png" alt="sale"/>}
+      {isSale&&price<100&&<img className="saleStamp" src={saleStamp} alt="sale"/>}
       <div className="product-image">
         <img src={srcImg} alt="" />
       </div>

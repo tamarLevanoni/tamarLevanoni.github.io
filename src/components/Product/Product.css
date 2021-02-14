@@ -1,4 +1,5 @@
 .product-card {
+  position: relative;
     display: flex;
     flex-direction: column;
   
@@ -11,6 +12,8 @@
   
   .product-image img {
     width: 100%;
+    z-index: 1;
+
   }
   
   .product-info {
@@ -19,3 +22,9 @@
     text-align: center;
   }
   
+.saleStamp{
+  position: absolute;
+  width: 50%;
+  
+z-index: 2;
+}

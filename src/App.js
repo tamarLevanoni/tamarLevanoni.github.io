@@ -4,8 +4,8 @@ import Header from "./components/Header/Header.js";
 import React, { useState, useEffect } from "react";
 
 const App = () => {
- const [products, setProducts] = useState([]);
- const  [currentCategory, setCurrentCategory] = useState("all");
+  const [products, setProducts] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState("all");
 
   const setCategory = (currentCategory) => {
     setCurrentCategory(currentCategory);
