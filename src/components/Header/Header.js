@@ -7,7 +7,7 @@ const Header = (props) => (
   <nav className="product-filter">
     <h1>Products</h1>
     <div className="sort">
-      <Filter categories={props.categories} setCategory={props.setCategory} />
+      <Filter categories={props.categories} setCategory={props.setCategory} setSelectedPrices={props.setSelectedPrices}/>
 
       <div className="collection-sort">
         <label>Sort by:</label>

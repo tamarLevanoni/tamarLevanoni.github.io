@@ -4,14 +4,15 @@ import SaleCountDown from "../SaleCountDown/SaleCountDown.js";
 import PropTypes from "prop-types";
 import "./Products.css";
 
-const Products = ({ products, currentCategory }) => {
+const Products = ({ products, currentCategory,minPrice,maxPrice }) => {
   const [isSale, setIsSale] = useState(true);
   const [filterProduts, setFilterProduts] = useState(products);
   useEffect(() => {
     currentCategory === "all"
-      ? setFilterProduts(products)
-      : setFilterProduts(products.filter(({ category }) => category === currentCategory));
-  }, [currentCategory, products]);
+      ? setFilterProduts(products.filter(({ price }) => price <= maxPrice&&price>=minPrice))
+      : setFilterProduts(products.filter(({ category,price }) => category === currentCategory&&price <= maxPrice&&price>=minPrice));
+  }, [currentCategory, maxPrice, minPrice, products]);
+
 
   return (
     <section className="products">
