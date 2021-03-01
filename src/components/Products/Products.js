@@ -1,26 +1,24 @@
-import React, { useState, } from "react";
+import React, { useEffect, useState } from "react";
 import Product from "../Product/Product.js";
 import SaleCountDown from "../SaleCountDown/SaleCountDown.js";
 import PropTypes from "prop-types";
 import "./Products.css";
 
-const Products = (props) => {
-  const [isSale, setIsSale] = useState(false);
-  const setSale = (isSaleNow) => 
-  setIsSale(isSaleNow);
-  let filterProduts;
-  if (props.currentCategory === "all") {
-    filterProduts = props.products;
-  } else {
-    filterProduts = props.products.filter(({ category }) => category === props.currentCategory);
-  }
-  const cards = filterProduts.map(({ id, image, title, price }) => (
-    <Product key={id} srcImg={image} title={title} price={price} isSale={isSale} />
-  ));
+const Products = ({ products, currentCategory }) => {
+  const [isSale, setIsSale] = useState(true);
+  const [filterProduts, setFilterProduts] = useState(products);
+  useEffect(() => {
+    currentCategory === "all"
+      ? setFilterProduts(products)
+      : setFilterProduts(products.filter(({ category }) => category === currentCategory));
+  }, [currentCategory, products]);
+
   return (
     <section className="products">
-      <SaleCountDown setSale={setSale} />
-      {cards}
+      <SaleCountDown onFinish={setIsSale} />
+      {filterProduts.map(({ id, image, title, price }) => (
+        <Product key={id} id={id} srcImg={image} title={title} price={price} isSale={isSale && price < 100} />
+      ))}
     </section>
   );
 };

@@ -1,45 +1,53 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import "./SaleCountDown.css";
 
-const SaleCountDown = (props) => {
+const SaleCountDown = ({ onFinish }) => {
   const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(10);
-  const [isSale, setIsSale] = useState(true);
+  const [seconds, setSeconds] = useState(15);
+  const [isStart, setIsStart] = useState(false);
+
   let intervalRef = useRef();
+  let timeoutRef = useRef();
   const fixNum = function (num) {
     if (Number(num) < 10) {
       return "0" + num;
     }
     return num;
   };
-
+  const finish = useCallback(() => {
+    setIsStart(false);
+    onFinish(false);
+  }, [onFinish]);
 
   useEffect(() => {
-    setTimeout(() => {
+    setIsStart(true);
+    timeoutRef.current = setTimeout(() => {
       clearInterval(intervalRef.current);
-      setIsSale(false);
-    }, 10000);
+      finish();
+    }, 15000);
     intervalRef.current = setInterval(() => {
+      console.log("alive");
       setSeconds((prev) => prev - 1);
     }, 1000);
-    return () => clearInterval(intervalRef.current);
-  }, []);
+    return () => {
+      console.log("clear");
+      clearInterval(intervalRef.current);
+      clearTimeout(timeoutRef.current);
+    };
+  }, [finish]);
+
 
   useEffect(() => {
-    if (isSale && seconds < 0) {
+    if (isStart && seconds < 0) {
       setSeconds(59);
       setMinutes((prev) => prev - 1);
     }
-  }, [isSale, seconds]);
-
-  useEffect(() => {
-    props.setSale(isSale);
-  }, [isSale, props]);
+  }, [isStart, seconds]);
 
   return (
     <div className="saleCountDown">
-      {isSale ? `${fixNum(minutes)}:${fixNum(seconds)} minutes to the end of sale` : "End of sale"}
+      {isStart ? `${fixNum(minutes)}:${fixNum(seconds)} minutes to the end of sale` : "End of sale"}
     </div>
   );
 };
