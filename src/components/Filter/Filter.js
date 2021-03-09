@@ -1,21 +1,30 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Slider } from "antd";
 import "./Filter.css";
 import { MinMaxPricesContext } from "../../contexts/context";
 
 const Filter = ({ setSelectedPrices, setCategory, categories }) => {
-  const prices = useContext(MinMaxPricesContext);
-  const [maxPrice, minPrice] = [Number(prices[0]), Number(prices[1])];
+  const [min, max] = useContext(MinMaxPricesContext);
+  const [minPrice, setMinPrice] = useState(Math.floor(Number(min)));
+  const [maxPrice, setMaxPrice] = useState(Math.ceil(Number(max)));
+  const [currentPrices, setCurrentPrices] = useState([minPrice, maxPrice]);
 
+  useEffect(() => {
+    const newMin = Math.floor(Number(min));
+    const newMax = Math.ceil(Number(max));
+    setMinPrice(newMin);
+    setMaxPrice(newMax);
+    setCurrentPrices([newMin, newMax]);
+  }, [max, min]);
+
+  useEffect(() => {
+    setSelectedPrices(currentPrices);
+  }, [currentPrices, setSelectedPrices]);
 
   const marks = {
     [minPrice]: `${minPrice}$`,
     [maxPrice]: `${maxPrice}$`,
-  };
-
-  const try1 = (value) => {
-    console.log(value);
   };
 
   return (
@@ -36,15 +45,18 @@ const Filter = ({ setSelectedPrices, setCategory, categories }) => {
         </select>
       </div>
       <div className="slider">
-        <Slider
-          range
-          marks={marks}
-          defaultValue={[minPrice, maxPrice]}
-          min={minPrice}
-          max={maxPrice}
-          onAfterChange={(value) => setSelectedPrices(value)}
-          onChange={(value) => try1(value)}
-        />
+        {minPrice !== 0 && maxPrice !== 0 && (
+          <Slider
+            range
+            marks={marks}
+            value={currentPrices}
+            min={minPrice}
+            max={maxPrice}
+            onChange={(value) => {
+              setCurrentPrices(value);
+            }}
+          />
+        )}
       </div>
     </>
   );

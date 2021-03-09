@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import "./Products.css";
 
 const Products = ({ products, currentCategory,minPrice,maxPrice }) => {
+  
   const [isSale, setIsSale] = useState(true);
   const [filterProduts, setFilterProduts] = useState(products);
   useEffect(() => {
@@ -17,8 +18,8 @@ const Products = ({ products, currentCategory,minPrice,maxPrice }) => {
   return (
     <section className="products">
       <SaleCountDown onFinish={setIsSale} />
-      {filterProduts.map(({ id, image, title, price }) => (
-        <Product key={id} id={id} srcImg={image} title={title} price={price} isSale={isSale && price < 100} />
+      {filterProduts.map(({ _id, image, title, price }) => (
+        <Product key={_id} _id={_id} srcImg={image} title={title} price={price} isSale={isSale && price < 100} />
       ))}
     </section>
   );
